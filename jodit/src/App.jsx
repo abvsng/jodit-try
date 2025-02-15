@@ -1,7 +1,15 @@
 import "./App.css";
+import { useRef } from "react";
+import JoditEditor from "jodit-react";
 
 function App() {
-  return <></>;
+  const editorRef = useRef(null);
+
+  return (
+    <>
+      <JoditEditor ref={editorRef} />
+    </>
+  );
 }
 
 export default App;
