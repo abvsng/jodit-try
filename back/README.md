@@ -1,0 +1,1 @@
+add .env DB_HOST at /db/mongoose.js
