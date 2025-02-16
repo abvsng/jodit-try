@@ -1,12 +1,11 @@
 import "./App.css";
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import JoditEditor from "jodit-react";
 
 function App() {
   const [theme, setTheme] = useState(false);
   const [content, setContent] = useState("");
   const [blog, setBlog] = useState("");
-  const editorRef = useRef(null);
   const config = useMemo(
     () => ({
       height: 400,
@@ -27,7 +26,6 @@ function App() {
         {theme ? "Dark" : "Light"}
       </button>
       <JoditEditor
-        ref={editorRef}
         config={config}
         value={content}
         onChange={(newContent) => {
@@ -37,6 +35,21 @@ function App() {
       <button
         onClick={() => {
           setBlog(content);
+          fetch("http://localhost:3000/send", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              blogContent: content, // Sending the blog HTML content
+            }),
+          })
+            .then((res) => {
+              return res.text();
+            })
+            .then((res) => {
+              alert(`Message is : ${res}`);
+            });
         }}
         title="Submit content"
       >
